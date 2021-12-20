@@ -57,6 +57,7 @@ class EdgeHostnameManager {
      */
     async createEdgeHostnames(hostnames) {
         let envInfo = this.environment.getEnvironmentInfo();
+        logger.info('Environment:', envInfo)
         for (let hostname of hostnames) {
             try {
                 if (hostname.edgeHostnameId) {
@@ -131,7 +132,6 @@ class EdgeHostnameManager {
         };
 
         createReq.ipVersionBehavior = helpers.parseIpVersionBehavior(hostname.ipVersionBehavior);
-
         if (hostname.cnameTo.endsWith(EdgeDomains.EDGE_SUITE)) {
             edgeDomain = "edgesuite.net";
         } else if (hostname.cnameTo.endsWith(EdgeDomains.EDGE_KEY)) {

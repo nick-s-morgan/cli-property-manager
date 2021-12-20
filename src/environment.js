@@ -511,6 +511,7 @@ class Environment {
      * @returns {Promise.<void>}
      */
     async save() {
+        logger.info('Beginning Save')
         let results = await this.merge(false);
         let envInfo = this.getEnvironmentInfo();
         let ruleTree = this.loadPropertyData();
@@ -545,8 +546,11 @@ class Environment {
             }
         }
         const hostnames = this.getHostnames();
+        logger.info('Checking Hostnames:', hostnames)
         let hostnamesHash = helpers.createHash(hostnames);
+        logger.info('hostnamesHash:', hostnamesHash)
         if (!envInfo.lastSavedHostnamesHash || envInfo.lastSavedHostnamesHash !== hostnamesHash) {
+            logger.info('Creating edge hostnames')
             results.edgeHostnames = await this.createEdgeHostnames(hostnames);
             this.checkForLastSavedHostnameErrors(envInfo, results);
             if (results.edgeHostnames.errors.length === 0) {
